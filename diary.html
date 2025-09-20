@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diary</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body >
+    <div class="buttons">
+    <button onclick="newEntry()">New Entry</button>
+    <button onclick="saveEntry()">Save</button>
+    <button onclick="loadPrevious()">Previous</button>
+    <button onclick="deleteEntry()">Delete</button>
+</div>
+
+<textarea id="diary" placeholder=" write your thoughts here .........."></textarea>
+
+<script>
+    let entries = JSON.parse(localStorage.getItem("diaryEntries")) || [];
+    let currentIndex = entries.length - 1;
+
+    function newEntry() {
+        let today = new Date().toLocaleDateString();
+        document.getElementById("diary").value = today + "\nDear Diary,\n";
+        currentIndex = entries.length;
+    }
+
+    function saveEntry() {
+        let text = document.getElementById("diary").value.trim();
+        if (text) {
+            if (currentIndex >= 0 && currentIndex < entries.length) {
+                entries[currentIndex] = text;
+            } else {
+                entries.push(text);
+                currentIndex = entries.length - 1;
+            }
+            localStorage.setItem("diaryEntries", JSON.stringify(entries));
+            alert("Entry saved!");
+        }
+    }
+
+    function loadPrevious() {
+        if (entries.length > 0 && currentIndex > 0) {
+            currentIndex--;
+            document.getElementById("diary").value = entries[currentIndex];
+        } else {
+            alert("No previous entry found!");
+        }
+    }
+
+    function deleteEntry() {
+        if (entries.length > 0 && currentIndex >= 0) {
+            entries.splice(currentIndex, 1);
+            localStorage.setItem("diaryEntries", JSON.stringify(entries));
+            document.getElementById("diary").value = "";
+            currentIndex = entries.length - 1;
+            alert("Entry deleted!");
+        }
+    }
+</script>
+
+</body>
+</html>

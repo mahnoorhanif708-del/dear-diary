@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login page</title>
+     <link rel="stylesheet" href="style.css" >  
+</head>
+<body >
+<div id="login">
+   <h2 >Login</h2>
+   <form id="loginform">
+    <input type="text" id="username"placeholder="username"required><br>
+    <input type="text" id="password"placeholder="password"required><br>
+   
+   <div id="showpass">
+    <label for ="showpassword">
+        <input type="checkbox" id="showpassword">ShowPassword</label><br>
+   </div>
+<button type="submit"> Login</button><br><br>
+   </form>
+   <p>Do you have an account?<a href="register.html">Register</a></p>
+</div>
+<script>
+    document.getElementById("showpassword").addEventListener("change", function()  {
+        let passField =document.getElementById("password");
+        passField.type=this.check?"text":"password";
+    });
+    document.getElementById("loginform").addEventListener("submit",function (event)
+{
+   event. preventDefault();
+    let username=document.getElementById("username").value. trim();
+    let password=document.getElementById("password").value;
+    let user = JSON.parse(localStorage. getItem("user"))||[];
+    let foundUser =users.find(user=>user.username==username &&user.password==password);
+    if(foundUser){
+    alert("Sucessfull Login !");
+localstorage.setItem("loggedInUser",username);
+window.location.href="diary.html";}
+else
+{
+    alert("InValid username or password !")
+}
+
+
+});
+</script>
+</body>
+</html>
